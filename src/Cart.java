@@ -12,6 +12,18 @@ public class Cart {
 		this.products = products;
 	}
 
+	public List<Product> getProducts() {
+		return List.copyOf(this.products);
+	}
+
+	public float calculatePrice() {
+		float price = 0;
+		for (Product product : this.products) {
+			price += product.getPrice();
+		}
+		return price;
+	}
+
 	public void add(Product product) {
 		this.products.add(product);
 	}
