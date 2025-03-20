@@ -16,7 +16,7 @@ public class CartTest {
 	@Test
 	public void AddProductShouldMakeCartNotEmpty_002() {
 		Cart cart = new Cart();
-		Product product = new Product(10);
+		Product product = createProductRice();
 		cart.add(product);
 
 		assertFalse(cart.isEmpty());
@@ -25,7 +25,7 @@ public class CartTest {
 	@Test
 	public void AddProductShouldMakeCartContainProduct_003() {
 		Cart cart = new Cart();
-		Product product = new Product(10);
+		Product product = createProductRice();
 		cart.add(product);
 
 		assertTrue(cart.contains(product));
@@ -34,7 +34,7 @@ public class CartTest {
 	@Test
 	public void RemoveAnAddedProductShouldMakeCartEmpty_004() {
 		Cart cart = new Cart();
-		Product product = new Product(10);
+		Product product = createProductRice();
 		cart.add(product);
 		assertTrue(cart.contains(product));
 
@@ -46,7 +46,7 @@ public class CartTest {
 	@Test
 	public void RemoveANonExistentProductShouldDoNothing_005() {
 		Cart cart = new Cart();
-		Product product = new Product(10);
+		Product product = createProductRice();
 
 		cart.remove(product);
 
@@ -56,7 +56,7 @@ public class CartTest {
 	@Test
 	public void RemoveAnAddedProductShouldMakeCartNotContainIt_006() {
 		Cart cart = new Cart();
-		Product product = new Product(10);
+		Product product = createProductRice();
 		cart.add(product);
 		assertTrue(cart.contains(product));
 
@@ -68,8 +68,8 @@ public class CartTest {
 	@Test
 	public void GetProductsShouldReturnListOfProducts_007() {
 		Cart cart = new Cart();
-		Product product1 = new Product(10);
-		Product product2 = new Product(10);
+		Product product1 = createProductRice();
+		Product product2 = createProductRice();
 		cart.add(product1);
 		cart.add(product2);
 
@@ -86,22 +86,7 @@ public class CartTest {
 		assertTrue(products.isEmpty());
 	}
 
-	@Test
-	public void CalculatePriceOfEmptyCartShouldBeZero_009() {
-		Cart cart = new Cart();
-
-		assertEquals(0, cart.calculatePrice());
-	}
-
-	@Test
-	public void CalculatePriceShouldReturnSumOfProductPrices_010() {
-		Cart cart = new Cart();
-		Product product1 = new Product(98);
-		Product product2 = new Product(5);
-
-		cart.add(product1);
-		cart.add(product2);
-
-		assertEquals(product1.getPrice() + product2.getPrice(), cart.calculatePrice());
+	public static Product createProductRice() {
+		return new Product("rice");
 	}
 }
