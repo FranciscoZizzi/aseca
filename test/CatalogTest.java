@@ -49,7 +49,7 @@ class CatalogTest {
 		HashMap<Product, Integer> priceList = new HashMap<>(Map.of(createProductRice(), 10));
 		Catalog catalog = new Catalog(new Date(), priceList).addProduct(createProductMilk(), 7);
 
-		assertEquals(7, catalog.getPrice(createProductMilk()).unwrap());
+		assertEquals(7, catalog.getPrice(createProductMilk()).getValue());
 	}
 
 	public static Product createProductRice() {
