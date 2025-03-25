@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Cart {
-	private List<Product> products = new ArrayList<>();
+	private final List<Product> products;
 
 	public Cart() {
 		this.products = new ArrayList<>();
@@ -16,12 +16,16 @@ public class Cart {
 		return List.copyOf(this.products);
 	}
 
-	public void add(Product product) {
-		this.products.add(product);
+	public Cart add(Product product) {
+		List<Product> newProducts = new ArrayList<>(List.copyOf(this.products));
+		newProducts.add(product);
+		return new Cart(newProducts);
 	}
 
-	public void remove(Product product) {
-		this.products.remove(product);
+	public Cart remove(Product product) {
+		List<Product> newProducts = new ArrayList<>(List.copyOf(this.products));
+		newProducts.remove(product);
+		return new Cart(newProducts);
 	}
 
 	public boolean contains(Product product) {

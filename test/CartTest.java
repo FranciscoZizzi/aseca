@@ -17,7 +17,7 @@ public class CartTest {
 	public void AddProductShouldMakeCartNotEmpty_002() {
 		Cart cart = new Cart();
 		Product product = createProductRice();
-		cart.add(product);
+		cart = cart.add(product);
 
 		assertFalse(cart.isEmpty());
 	}
@@ -26,7 +26,7 @@ public class CartTest {
 	public void AddProductShouldMakeCartContainProduct_003() {
 		Cart cart = new Cart();
 		Product product = createProductRice();
-		cart.add(product);
+		cart = cart.add(product);
 
 		assertTrue(cart.contains(product));
 	}
@@ -35,10 +35,10 @@ public class CartTest {
 	public void RemoveAnAddedProductShouldMakeCartEmpty_004() {
 		Cart cart = new Cart();
 		Product product = createProductRice();
-		cart.add(product);
+		cart = cart.add(product);
 		assertTrue(cart.contains(product));
 
-		cart.remove(product);
+		cart = cart.remove(product);
 
 		assertTrue(cart.isEmpty());
 	}
@@ -48,7 +48,7 @@ public class CartTest {
 		Cart cart = new Cart();
 		Product product = createProductRice();
 
-		cart.remove(product);
+		cart = cart.remove(product);
 
 		assertTrue(cart.isEmpty());
 	}
@@ -57,10 +57,10 @@ public class CartTest {
 	public void RemoveAnAddedProductShouldMakeCartNotContainIt_006() {
 		Cart cart = new Cart();
 		Product product = createProductRice();
-		cart.add(product);
+		cart = cart.add(product);
 		assertTrue(cart.contains(product));
 
-		cart.remove(product);
+		cart = cart.remove(product);
 
 		assertFalse(cart.contains(product));
 	}
@@ -70,8 +70,8 @@ public class CartTest {
 		Cart cart = new Cart();
 		Product product1 = createProductRice();
 		Product product2 = createProductRice();
-		cart.add(product1);
-		cart.add(product2);
+		cart = cart.add(product1);
+		cart = cart.add(product2);
 
 		List<Product> products = cart.getProducts();
 		assertTrue(products.contains(product1));
@@ -84,6 +84,15 @@ public class CartTest {
 		List<Product> products = cart.getProducts();
 
 		assertTrue(products.isEmpty());
+	}
+
+	@Test
+	public void CartShouldBeImmutable_009() {
+		Cart cart1 = new Cart();
+		Cart cart2 = cart1.add(createProductRice());
+
+		assertTrue(cart1.isEmpty());
+		assertFalse(cart2.isEmpty());
 	}
 
 	public static Product createProductRice() {
