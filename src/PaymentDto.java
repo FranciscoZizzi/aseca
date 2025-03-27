@@ -1,1 +1,1 @@
-public sealed interface PaymentDto permits CashPaymentDto {}
+public sealed interface PaymentDto permits CardPaymentDto, CashPaymentDto {}

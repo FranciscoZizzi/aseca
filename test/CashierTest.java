@@ -61,6 +61,20 @@ class CashierTest {
 		assertEquals("Insufficient cash", paymentResult.message());
 	}
 
+	@Test
+	public void PayValidCartWithCardShouldReturnPaymentResult() {
+		Catalog catalog = createCatalog();
+		PaymentProcessor paymentProcessor = createMockPaymentProcessor();
+		Cashier cashier = new Cashier(catalog, paymentProcessor);
+
+		Cart cart = new Cart(List.of(new Product("rice"), new Product("milk"), new Product("cheese")));
+
+		PaymentDto paymentDetails = new CardPaymentDto("1234 5678 9123 4567", "12", "2028", "123");
+
+		PaymentResult paymentResult = cashier.pay(cart, paymentDetails);
+		assertTrue(paymentResult.isSuccessful());
+	}
+
 	private static Catalog createCatalog() {
 		HashMap<Product, Integer> priceMap = new HashMap<>(Map.of(
 				new Product("rice"), 10,

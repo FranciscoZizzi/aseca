@@ -6,6 +6,9 @@ public class MockPaymentProcessor implements PaymentProcessor {
 			case CashPaymentDto cashPayment -> {
 				return processCashPayment(price, cashPayment);
 			}
+			case CardPaymentDto cardPayment -> {
+				return processCardPayment(price, cardPayment);
+			}
 		}
 	}
 
@@ -15,5 +18,9 @@ public class MockPaymentProcessor implements PaymentProcessor {
 		if (amount < price) return new PaymentResult(false, 0, 0, "Insufficient cash");
 
 		return new PaymentResult(true, amount, amount - price, "");
+	}
+
+	private PaymentResult processCardPayment(Integer price, CardPaymentDto paymentDetails) {
+		return new PaymentResult(true, price, 0, "");
 	}
 }
