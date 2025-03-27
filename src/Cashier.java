@@ -21,4 +21,12 @@ public class Cashier {
 		}
 		return new Result<>(subtotal, null);
 	}
+
+	public PaymentResult pay(Cart cart, PaymentDto paymentDetails) {
+		Result<Integer, CashierException> cartPrice = getPrice(cart);
+
+		if (cartPrice.isError()) return new PaymentResult(false, 0, 0, "");
+
+		return paymentProcessor.pay(cartPrice.getValue(), paymentDetails);
+	}
 }

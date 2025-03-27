@@ -7,6 +7,10 @@ public class Result<V, E extends Throwable> {
 		this.error = error;
 	}
 
+	public boolean isError() {
+		return value == null;
+	}
+
 	public V unwrap() throws E {
 		if (value == null) throw error;
 		return value;

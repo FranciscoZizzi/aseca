@@ -19,6 +19,48 @@ class CashierTest {
 		assertEquals(28, cashier.getPrice(cart).unwrap());
 	}
 
+	@Test
+	public void GetCartPricesWithNonRegisteredProductShouldReturnError() {
+		Catalog catalog = createCatalog();
+		PaymentProcessor paymentProcessor = createMockPaymentProcessor();
+		Cashier cashier = new Cashier(catalog, paymentProcessor);
+
+		Cart cart = new Cart(List.of(new Product("uno"), new Product("milk"), new Product("cheese")));
+
+		assertThrows(CashierException.class, () -> cashier.getPrice(cart).unwrap());
+	}
+
+	@Test
+	public void PayValidCartInCashShouldReturnPaymentResult() {
+		Catalog catalog = createCatalog();
+		PaymentProcessor paymentProcessor = createMockPaymentProcessor();
+		Cashier cashier = new Cashier(catalog, paymentProcessor);
+
+		Cart cart = new Cart(List.of(new Product("rice"), new Product("milk"), new Product("cheese")));
+
+		PaymentDto paymentDetails = new CashPaymentDto(30);
+
+		PaymentResult paymentResult = cashier.pay(cart, paymentDetails);
+		assertTrue(paymentResult.isSuccessful());
+		assertEquals(30, paymentResult.amount());
+		assertEquals(2, paymentResult.change());
+	}
+
+	@Test
+	public void PayWithInsufficientCashShouldReturnUnsuccessfulPaymentResult() {
+		Catalog catalog = createCatalog();
+		PaymentProcessor paymentProcessor = createMockPaymentProcessor();
+		Cashier cashier = new Cashier(catalog, paymentProcessor);
+
+		Cart cart = new Cart(List.of(new Product("rice"), new Product("milk"), new Product("cheese")));
+
+		PaymentDto paymentDetails = new CashPaymentDto(23);
+
+		PaymentResult paymentResult = cashier.pay(cart, paymentDetails);
+		assertFalse(paymentResult.isSuccessful());
+		assertEquals("Insufficient cash", paymentResult.message());
+	}
+
 	private static Catalog createCatalog() {
 		HashMap<Product, Integer> priceMap = new HashMap<>(Map.of(
 				new Product("rice"), 10,
